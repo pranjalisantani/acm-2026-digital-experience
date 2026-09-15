@@ -19,14 +19,14 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
   }, []);
 
   const navLinks = [
-    { label: "ABOUT", href: "#about" },
-    { label: "CAPABILITIES", href: "#capabilities" },
-    { label: "EVENTS", href: "#events" },
+    { label: "ABOUT", href: "#information" },
     { label: "PEOPLE", href: "#people" },
+    { label: "EVENTS", href: "#events" },
+    { label: "WHAT WE DO", href: "#what-we-do" },
     { label: "PROJECTS", href: "#projects" },
-    { label: "ARCHIVE", href: "#archive" },
     { label: "RESOURCES", href: "#resources" },
-    { label: "CONTACT", href: "#contact" },
+    { label: "ARCHIVE", href: "#archive" },
+    { label: "JOIN", href: "#join" },
   ];
 
   return (
@@ -122,18 +122,6 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
         {/* Mobile menu controls */}
         <div className="flex items-center gap-2 lg:hidden">
           <button
-            onClick={onOpenSpecs}
-            className="rounded border border-slate-700 bg-slate-900/50 px-2 py-1 text-[10px] font-mono text-slate-300 cursor-pointer"
-          >
-            Guide
-          </button>
-          <a
-            href="#join"
-            className="rounded bg-cyan-400 px-2.5 py-1 text-[11px] font-mono font-bold text-slate-950"
-          >
-            Join
-          </a>
-          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-950/40 text-cyan-300 cursor-pointer"
             aria-label="Toggle navigation menu"
@@ -157,6 +145,25 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
                 <span className="text-cyan-500 text-[10px]">▸</span> {link.label}
               </a>
             ))}
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-cyan-500/20 flex items-center justify-between gap-2">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenSpecs();
+              }}
+              className="w-1/2 rounded border border-slate-700 bg-slate-900/50 py-2 text-[11px] font-mono text-slate-300 cursor-pointer text-center"
+            >
+              Senior Guide ↗
+            </button>
+            <a
+              href="#join"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-1/2 rounded bg-cyan-400 py-2 text-[11px] font-mono font-bold text-slate-950 text-center"
+            >
+              Join ACM
+            </a>
           </div>
         </div>
       )}

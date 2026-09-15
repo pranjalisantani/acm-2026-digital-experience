@@ -68,28 +68,28 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-[11px]">
               <li>
-                <a href="#about" className="hover:text-cyan-300 transition-colors">
-                  About Chapter
+                <a href="#information" className="hover:text-cyan-300 transition-colors">
+                  Chapter Information
                 </a>
               </li>
               <li>
-                <a href="#capabilities" className="hover:text-cyan-300 transition-colors">
-                  6 Capabilities
+                <a href="#featured-events" className="hover:text-cyan-300 transition-colors">
+                  Featured Signals
                 </a>
               </li>
               <li>
-                <a href="#events" className="hover:text-cyan-300 transition-colors">
-                  Event Calendar
+                <a href="#featured-projects" className="hover:text-cyan-300 transition-colors">
+                  Engineering Branches
                 </a>
               </li>
               <li>
-                <a href="#people" className="hover:text-cyan-300 transition-colors">
-                  People Constellation
+                <a href="#featured-people" className="hover:text-cyan-300 transition-colors">
+                  Chapter Architects
                 </a>
               </li>
               <li>
-                <a href="#projects" className="hover:text-cyan-300 transition-colors">
-                  Open Source Projects
+                <a href="#what-we-do" className="hover:text-cyan-300 transition-colors">
+                  What We Do
                 </a>
               </li>
             </ul>

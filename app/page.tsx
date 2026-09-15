@@ -4,18 +4,17 @@ import { useState } from "react";
 import BootSequence from "./components/BootSequence";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
-import AboutSection from "./components/AboutSection";
-import CapabilitiesSection from "./components/CapabilitiesSection";
-import EventsSection from "./components/EventsSection";
-import EventDetailModal, { ACMEvent } from "./components/EventDetailModal";
+import InformationSection from "./components/InformationSection";
 import PeopleSection from "./components/PeopleSection";
-import PersonDetailModal, { ACMMember } from "./components/PersonDetailModal";
-import ProjectsSection from "./components/ProjectsSection";
-import ArchiveSection from "./components/ArchiveSection";
+import EventsSection from "./components/EventsSection";
+import WhatWeDoPreview from "./components/WhatWeDoPreview";
+import FeaturedProjects from "./components/FeaturedProjects";
 import ResourcesSection from "./components/ResourcesSection";
+import ArchiveSection from "./components/ArchiveSection";
 import JoinSection from "./components/JoinSection";
-import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
+import EventDetailModal, { ACMEvent } from "./components/EventDetailModal";
+import PersonDetailModal, { ACMMember } from "./components/PersonDetailModal";
 import ReviewDrawer from "./components/ReviewDrawer";
 
 export default function Home() {
@@ -25,7 +24,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-[#030712] text-slate-100 flex flex-col tech-grid-pattern selection:bg-cyan-500/20 selection:text-cyan-300">
-      {/* 1. Cinematic Boot Initialization Sequence (Skippable) */}
+      {/* Cinematic Boot Initialization Sequence */}
       <BootSequence />
 
       {/* Background Ambient Radial Spotlight Glows */}
@@ -38,49 +37,46 @@ export default function Home() {
       {/* Floating Production Navigation Bar */}
       <Navbar onOpenSpecs={() => setSpecsOpen(true)} />
 
-      {/* Main Content Sections */}
+      {/* Main Connected Narrative Flow (Prioritizing People and Events over Projects) */}
       <main className="relative z-10 flex-1">
-        {/* 2. Monumental Hero Section */}
+        {/* 1. Monumental Hero Section */}
         <HeroSection />
 
-        {/* 3. About ACM Section */}
-        <AboutSection />
+        {/* 2. ACM Introduction & Scroll-Driven Storytelling */}
+        <InformationSection />
 
-        {/* 4. ACM Network & 6 Core Capabilities */}
-        <CapabilitiesSection />
-
-        {/* 5 & 6. Chapter Events & Interactive Calendar */}
-        <EventsSection onSelectEvent={(evt) => setSelectedEvent(evt)} />
-
-        {/* 8. People Constellation & Members */}
+        {/* 3. People / Team (Current Members & Distinct Alumni) */}
         <PeopleSection onSelectPerson={(person) => setSelectedPerson(person)} />
 
-        {/* 9. Projects & Engineering Branches */}
-        <ProjectsSection />
+        {/* 4. Events & Workshops (Upcoming with Registration & Past with Photos) */}
+        <EventsSection onSelectEvent={(evt) => setSelectedEvent(evt)} />
 
-        {/* 10. Photo & Activity Archive */}
-        <ArchiveSection />
+        {/* 5. What We Do (6 Chapter Initiatives) */}
+        <WhatWeDoPreview />
 
-        {/* 11. Resources & Student Learning Repository */}
+        {/* 6. Projects (Restrained Supporting Software & Tools) */}
+        <FeaturedProjects />
+
+        {/* 7. Learning Resources (Syllabi, Guides & Notebooks) */}
         <ResourcesSection />
 
-        {/* 12. Join ACM & Action Callout */}
-        <JoinSection />
+        {/* 8. Chapter Activity Archive (Visual History & Milestones) */}
+        <ArchiveSection />
 
-        {/* 13. Chapter Contact & Official Links */}
-        <ContactSection />
+        {/* 9. Join / Participate */}
+        <JoinSection />
       </main>
 
-      {/* 14. Complete Professional Footer */}
+      {/* 10. Chapter Production Footer */}
       <Footer />
 
-      {/* 7. Event Detail Preview Slideout / Modal */}
+      {/* Event Detail Preview & Photo Gallery Modal */}
       <EventDetailModal
         event={selectedEvent}
         onClose={() => setSelectedEvent(null)}
       />
 
-      {/* Interactive Member Dossier Modal */}
+      {/* Member Profile Modal */}
       <PersonDetailModal
         person={selectedPerson}
         onClose={() => setSelectedPerson(null)}

@@ -19,65 +19,51 @@ interface Project {
 export const SAMPLE_PROJECTS: Project[] = [
   {
     id: "proj-01",
-    title: "Aura // Distributed Consensus & Cluster Scheduler",
-    tagline: "Fault-tolerant raft-based orchestration for edge nodes",
-    domain: "Distributed Systems & Cloud",
+    title: "Chapter Core Platform",
+    tagline: "Open digital runtime and collaborative gateway for chapter operations",
+    domain: "Web Systems & Architecture",
     problem:
-      "Heterogeneous student lab computers suffer from intermittent network connectivity and idle GPU utilization during off-peak hours.",
+      "Chapter communications, event schedules, and project branches were fragmented across disparate social feeds without unified architectural continuity.",
     approach:
-      "Architected a decentralized compute broker implementing Raft consensus for state synchronization and heartbeats, with priority task dispatching.",
-    technologies: ["Go", "gRPC", "Raft Consensus", "Docker", "Prometheus"],
+      "Architected a high-performance Next.js application with interactive visual telemetry, responsive dark mode design, and open accessibility standards.",
+    technologies: ["TypeScript", "Next.js", "Tailwind CSS", "GSAP", "Open Source"],
     outcome:
-      "Demonstrated 99.4% task completion across simulated 50-node cluster partition; benchmark paper under preparation.",
-    status: "In Development",
-    githubPlaceholder: "github.com/acm-chapter/aura-cluster",
-    demoPlaceholder: "aura-preview.acm2026.net",
+      "Serves as the unified central hub for ACM FACE chapter registrations, documentation, and member signals.",
+    status: "Production",
+    githubPlaceholder: "github.com/acm-face/core-platform",
+    demoPlaceholder: "face.acm.org",
   },
   {
     id: "proj-02",
-    title: "GraphSynth // Neural Topology & AST Visualizer",
-    tagline: "Interactive 3D graph exploration for compiler syntax trees",
-    domain: "Compilers & Graphics",
+    title: "Algorithmic Preprint Archive",
+    tagline: "Curated student research notes, technical digests, and algorithmic problem decompositions",
+    domain: "Scientific Computing & Theory",
     problem:
-      "Students struggling with compiler theory find static textual AST representations difficult to trace during intermediate code optimization.",
+      "Theoretical exploration notes and seminar syntheses frequently remained isolated in private docs without permanent chapter indexing.",
     approach:
-      "Constructed a high-performance WebGPU-accelerated force-directed graph engine that dynamically renders AST transformations through each LLVM pass.",
-    technologies: ["TypeScript", "WebGPU", "C++", "LLVM IR", "Canvas"],
+      "Designed a lightweight peer-reviewed Markdown archive with mathematical typesetting and static citation indexing for student papers.",
+    technologies: ["Python", "FastAPI", "LaTeX", "Markdown", "Research Preprint"],
     outcome:
-      "Adopted by Chapter Systems SIG as the standard pedagogical visualization tool for compiler design workshops.",
-    status: "Production",
-    githubPlaceholder: "github.com/acm-chapter/graph-synth",
-    demoPlaceholder: "graphsynth.acm2026.net",
+      "Maintains chapter working group digests on graph algorithms, cache-oblivious data structures, and computational geometry.",
+    status: "Research Preprint",
+    githubPlaceholder: "github.com/acm-face/preprint-archive",
+    demoPlaceholder: "papers.acm-face.org",
   },
   {
     id: "proj-03",
-    title: "Chronicle // Chapter Cryptographic Digital Passport",
-    tagline: "Verifiable student credentials and event attendance ledger",
-    domain: "Applied Cryptography & Security",
+    title: "ICPC Contest Toolkit",
+    tagline: "Standard library extensions, verification harness, and templates for competitive programming",
+    domain: "Algorithms & Competitive Code",
     problem:
-      "Physical paper certificates and unauthenticated attendance forms are prone to tampering and cumbersome to verify for academic credits.",
+      "Collegiate competition teams lack a shared, rigorously verified library of algorithms and automated stress-testing generators.",
     approach:
-      "Implemented a tamper-proof cryptographic attestation service using Ed25519 digital signatures and zero-knowledge identity proofs.",
-    technologies: ["Rust", "Ed25519", "SQLite", "Zero-Knowledge Proofs", "Next.js"],
+      "Developed a modern C++20 header template library paired with automated differential testing against randomized brute-force oracles.",
+    technologies: ["C++20", "CMake", "Python", "Differential Testing", "ICPC"],
     outcome:
-      "Over 600 verifiable credentials issued across chapter symposiums with instant QR verification for sponsors.",
-    status: "Production",
-    githubPlaceholder: "github.com/acm-chapter/chronicle-passport",
-  },
-  {
-    id: "proj-04",
-    title: "QuantFlow // Algorithmic Backtesting & Market Engine",
-    tagline: "Sub-millisecond event loop for quantitative strategy benchmarks",
-    domain: "Financial Computing & Algorithms",
-    problem:
-      "Python-based backtesting tools are too sluggish to evaluate tick-level orderbook simulations for competitive algorithmic trading squads.",
-    approach:
-      "Built a zero-allocation ring-buffer orderbook matcher in modern C++20 with vectorized statistical calculating kernels.",
-    technologies: ["C++20", "SIMD", "Lock-Free Queues", "Python Bindings"],
-    outcome:
-      "Achieved sub-200 nanosecond tick processing latency, used by our ICPC and Quant study group for simulated contests.",
-    status: "Research Preprint",
-    githubPlaceholder: "github.com/acm-chapter/quantflow-engine",
+      "Standardized code templates and verification harnesses deployed across chapter competitive programming training clinics.",
+    status: "In Development",
+    githubPlaceholder: "github.com/acm-face/icpc-toolkit",
+    demoPlaceholder: "icpc.acm-face.org",
   },
 ];
 
@@ -217,7 +203,7 @@ export default function ProjectsSection() {
             {/* Outcome */}
             <div className="mt-5 rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-4">
               <h4 className="font-mono text-xs uppercase tracking-wider text-cyan-300">
-                04 // MEASURABLE OUTCOME & BENCHMARKS
+                04 // CHAPTER IMPACT & DEPLOYMENT
               </h4>
               <p className="mt-1.5 text-xs text-slate-300 font-light leading-relaxed">
                 {activeProject.outcome}

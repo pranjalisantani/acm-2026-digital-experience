@@ -84,15 +84,16 @@ export default function ArchiveSection() {
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-cyan-400 flex items-center gap-2">
               <span className="h-1.5 w-4 bg-cyan-400 inline-block" />
-              06 // VISUAL ARCHIVE & MEMORY
+              07 // CHAPTER ARCHIVE
             </div>
             <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white uppercase">
-              Chapter Activity Archive
+              Chapter Archive
             </h2>
           </div>
           <div className="max-w-md">
             <p className="text-sm text-slate-300 font-light leading-relaxed">
-              The living record of our computing culture. Curated documentation of chapter symposiums, hackathons, and laboratory milestones.
+              Photographic documentation and milestones from past chapter symposiums, hackathons,
+              coding battles, and community workshops.
             </p>
           </div>
         </div>

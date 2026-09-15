@@ -139,12 +139,16 @@ export default function NetworkCanvas({
         const pulse = Math.sin(time * node.pulseSpeed + node.pulseOffset) * 0.2 + 0.8;
         const currentAlpha = Math.min(1, node.baseAlpha * pulse);
 
+        const isLight = typeof document !== "undefined" && document.documentElement.classList.contains("light");
+        const cyanRgb = isLight ? "2, 132, 199" : "0, 240, 255";
+        const accentRgb = isLight ? "3, 105, 161" : "56, 189, 248";
+
         // Draw node core
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 240, 255, ${currentAlpha})`;
-        ctx.shadowColor = "rgba(0, 240, 255, 0.7)";
-        ctx.shadowBlur = 8;
+        ctx.fillStyle = `rgba(${cyanRgb}, ${currentAlpha})`;
+        ctx.shadowColor = `rgba(${cyanRgb}, ${isLight ? 0.4 : 0.7})`;
+        ctx.shadowBlur = isLight ? 4 : 8;
         ctx.fill();
 
         // Connect with other nodes
@@ -155,12 +159,12 @@ export default function NetworkCanvas({
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxDistance) {
-            const lineAlpha = (1 - dist / maxDistance) * 0.28;
+            const lineAlpha = (1 - dist / maxDistance) * (isLight ? 0.35 : 0.28);
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(other.x, other.y);
-            ctx.strokeStyle = `rgba(0, 240, 255, ${lineAlpha})`;
-            ctx.lineWidth = 0.85;
+            ctx.strokeStyle = `rgba(${cyanRgb}, ${lineAlpha})`;
+            ctx.lineWidth = isLight ? 1 : 0.85;
             ctx.shadowBlur = 0;
             ctx.stroke();
           }
@@ -172,13 +176,13 @@ export default function NetworkCanvas({
           const dy = mouse.y - node.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < mouse.radius) {
-            const lineAlpha = (1 - dist / mouse.radius) * 0.38;
+            const lineAlpha = (1 - dist / mouse.radius) * 0.42;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(56, 189, 248, ${lineAlpha})`;
-            ctx.lineWidth = 1;
-            ctx.shadowColor = "rgba(0, 240, 255, 0.5)";
+            ctx.strokeStyle = `rgba(${accentRgb}, ${lineAlpha})`;
+            ctx.lineWidth = 1.1;
+            ctx.shadowColor = `rgba(${cyanRgb}, 0.5)`;
             ctx.shadowBlur = 4;
             ctx.stroke();
           }

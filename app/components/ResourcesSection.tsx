@@ -119,15 +119,16 @@ export default function ResourcesSection() {
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-cyan-400 flex items-center gap-2">
               <span className="h-1.5 w-4 bg-cyan-400 inline-block" />
-              07 // KNOWLEDGE CONNECTIONS & RESOURCES
+              06 // LEARNING RESOURCES
             </div>
             <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white uppercase">
-              Student Learning Repository
+              Learning Resources
             </h2>
           </div>
           <div className="max-w-md">
             <p className="text-sm text-slate-300 font-light leading-relaxed">
-              Knowledge is the connection that unifies the network. Access chapter syllabi, curated roadmaps, algorithm templates, and research guides.
+              Curated chapter syllabi, competitive programming handbooks, machine learning notebooks,
+              and academic research guides prepared for students.
             </p>
           </div>
         </div>
@@ -136,10 +137,10 @@ export default function ResourcesSection() {
         <div className="mt-6 rounded-lg border border-cyan-500/20 bg-cyan-950/20 p-3 font-mono text-xs text-slate-300 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span className="flex items-center gap-2 text-cyan-300">
             <span className="h-2 w-2 rounded-full bg-cyan-400" />
-            [CURATED LEARNING ARTIFACTS // REPOSITORY SCHEMA PREVIEW]
+            [CHAPTER STUDY RESOURCES // OPEN TO ALL STUDENTS]
           </span>
           <span className="text-[11px] text-slate-400">
-            Search and category filtering fully functional.
+            Search and category filters active.
           </span>
         </div>
 

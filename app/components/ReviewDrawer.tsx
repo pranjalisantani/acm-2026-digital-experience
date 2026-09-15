@@ -40,6 +40,8 @@ export default function ReviewDrawer({ isOpen, onClose }: ReviewDrawerProps) {
     { num: "11", name: "Membership Portal", status: "The 4 Verbs & Interactive Form Modal" },
     { num: "12", name: "Contact & Headquarters", status: "Verified Channels & Signal Dispatch" },
     { num: "13", name: "Footer Directory", status: "Complete Index & Official ACM Affiliations" },
+    { num: "14", name: "Theme Engine", status: "Dark/Light Persistent Toggle" },
+    { num: "15", name: "Cinematic Soundtrack", status: "Subtle Ambient Audio Controller" },
   ];
 
   return (
