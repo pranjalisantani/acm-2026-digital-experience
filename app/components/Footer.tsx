@@ -43,7 +43,7 @@ export default function Footer() {
               </div>
               <div>
                 <div className="text-white font-bold text-base tracking-wider">
-                  ACM<span className="text-cyan-400 font-normal ml-1">2026</span>
+                  ACM <span className="text-cyan-400">FACE</span>
                 </div>
                 <div className="text-[10px] text-slate-500">
                   ASSOCIATION FOR COMPUTING MACHINERY
@@ -52,12 +52,12 @@ export default function Footer() {
             </div>
 
             <p className="text-xs text-slate-400 font-sans font-light leading-relaxed max-w-sm">
-              Advancing computing as a science and profession. The student chapter digital platform uniting learners, researchers, and systems architects into a living network.
+              Advancing computing as a science and profession. The student chapter digital experience uniting learners, researchers, and systems architects into a living community.
             </p>
 
             <div className="flex items-center gap-2 text-[11px] text-cyan-400">
               <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>CHAPTER CORE // YEAR 2026 EDITION</span>
+              <span>ACM FACE // 2026 EDITION</span>
             </div>
           </div>
 
@@ -68,23 +68,18 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-[11px]">
               <li>
-                <a href="#information" className="hover:text-cyan-300 transition-colors">
-                  Chapter Information
+                <a href="#hero" className="hover:text-cyan-300 transition-colors">
+                  Chapter Story
                 </a>
               </li>
               <li>
-                <a href="#featured-events" className="hover:text-cyan-300 transition-colors">
-                  Featured Signals
+                <a href="#people" className="hover:text-cyan-300 transition-colors">
+                  People & Team
                 </a>
               </li>
               <li>
-                <a href="#featured-projects" className="hover:text-cyan-300 transition-colors">
-                  Engineering Branches
-                </a>
-              </li>
-              <li>
-                <a href="#featured-people" className="hover:text-cyan-300 transition-colors">
-                  Chapter Architects
+                <a href="#events" className="hover:text-cyan-300 transition-colors">
+                  Events & Workshops
                 </a>
               </li>
               <li>
@@ -92,38 +87,48 @@ export default function Footer() {
                   What We Do
                 </a>
               </li>
-            </ul>
-          </div>
-
-          {/* Col 4: Knowledge */}
-          <div className="space-y-3">
-            <h4 className="text-white font-bold uppercase tracking-wider text-xs">
-              KNOWLEDGE
-            </h4>
-            <ul className="space-y-2 text-[11px]">
               <li>
-                <a href="#resources" className="hover:text-cyan-300 transition-colors">
-                  Learning Repository
-                </a>
-              </li>
-              <li>
-                <a href="#resources" className="hover:text-cyan-300 transition-colors">
-                  DSA & Algorithmic Roadmaps
-                </a>
-              </li>
-              <li>
-                <a href="#resources" className="hover:text-cyan-300 transition-colors">
-                  Systems & Distributed Labs
-                </a>
-              </li>
-              <li>
-                <a href="#archive" className="hover:text-cyan-300 transition-colors">
-                  Photo & Activity Archive
+                <a href="#projects" className="hover:text-cyan-300 transition-colors">
+                  Selected Projects
                 </a>
               </li>
               <li>
                 <a href="#join" className="hover:text-cyan-300 transition-colors">
-                  Membership Portal
+                  Join Chapter
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 4: Initiatives */}
+          <div className="space-y-3">
+            <h4 className="text-white font-bold uppercase tracking-wider text-xs">
+              INITIATIVES
+            </h4>
+            <ul className="space-y-2 text-[11px]">
+              <li>
+                <a href="#what-we-do" className="hover:text-cyan-300 transition-colors">
+                  Hands-on Workshops
+                </a>
+              </li>
+              <li>
+                <a href="#what-we-do" className="hover:text-cyan-300 transition-colors">
+                  Open Source Projects
+                </a>
+              </li>
+              <li>
+                <a href="#what-we-do" className="hover:text-cyan-300 transition-colors">
+                  Research Reading Groups
+                </a>
+              </li>
+              <li>
+                <a href="#what-we-do" className="hover:text-cyan-300 transition-colors">
+                  ICPC Clinics & Hackathons
+                </a>
+              </li>
+              <li>
+                <a href="#events" className="hover:text-cyan-300 transition-colors">
+                  Event Photo Archives
                 </a>
               </li>
             </ul>
@@ -175,19 +180,14 @@ export default function Footer() {
                   Code of Ethics ↗
                 </a>
               </li>
-              <li>
-                <a href="#contact" className="hover:text-cyan-300 transition-colors">
-                  Contact Chapter Core
-                </a>
-              </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Legal & Structural Notice */}
+        {/* Bottom Legal & Trademark Notice */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
           <div>
-            © 2026 ACM Student Chapter. All rights reserved. Built as an official digital experience prototype.
+            © 2026 ACM FACE Student Chapter. All rights reserved. Built as an official digital experience.
           </div>
           <div className="flex items-center gap-4">
             <span>ACM® is a registered trademark of the Association for Computing Machinery.</span>

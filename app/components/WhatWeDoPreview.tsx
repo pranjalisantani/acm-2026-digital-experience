@@ -1,55 +1,40 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function WhatWeDoPreview() {
   const containerRef = useRef<HTMLElement>(null);
-  const [activeVector, setActiveVector] = useState(0);
 
-  const vectors = [
+  const pillars = [
     {
       num: "01",
-      title: "LEARN",
-      tagline: "Foundational & Frontier Computing",
-      desc: "Structured masterclasses, deep-dive algorithm clinics, and low-level systems labs designed to bridge coursework with real engineering depth.",
-      highlights: ["Advanced Data Structures", "Operating Systems Internals", "Distributed Computing"],
+      title: "Workshops",
+      subtitle: "Hands-on technical sessions",
+      desc: "Deep-dive systems labs, algorithmic clinics, and practical software engineering led by senior students and invited industry engineers.",
+      metric: "Bi-weekly practical labs",
     },
     {
       num: "02",
-      title: "BUILD",
-      tagline: "High-Impact Open Source Software",
-      desc: "Architecting real production software, developer utilities, microservices, and contributing to high-visibility open-source projects.",
-      highlights: ["Chapter Core APIs", "Compiler AST Tools", "Cryptographic Ledgers"],
+      title: "Projects",
+      subtitle: "Collaborative software development",
+      desc: "Student squads architecting verified open-source chapter infrastructure, developer tooling, and production software applications.",
+      metric: "Open chapter repositories",
     },
     {
       num: "03",
-      title: "RESEARCH",
-      tagline: "Theoretical Papers & Preprints",
-      desc: "Collaborating with faculty on computational research, dissecting seminal ACM SIG papers, and authoring student symposium preprints.",
-      highlights: ["ACM SIG Paper Circles", "Deep Model Optimization", "Consensus Verification"],
+      title: "Reading Groups",
+      subtitle: "Exploring research & ideas",
+      desc: "Collaborative discussions dissecting seminal ACM SIG papers, algorithmic proofs, preprints, and frontier computing advances.",
+      metric: "Weekly paper circles",
     },
     {
       num: "04",
-      title: "CONNECT",
-      tagline: "Senior Mentorship & Global Ties",
-      desc: "Connecting students with industry researchers, worldwide ACM chapters, faculty sponsors, and alumni working in frontier technology labs.",
-      highlights: ["1-on-1 Senior Mentoring", "ACM Global Network", "Industry Fireside Panels"],
-    },
-    {
-      num: "05",
-      title: "COMPETE",
-      tagline: "ICPC, Hackathons & CTFs",
-      desc: "Forming elite chapter squads to represent the university in ICPC regional contests, international hackathons, and security challenges.",
-      highlights: ["ICPC Training Squads", "36-Hour Hackathons", "Cryptographic CTFs"],
-    },
-    {
-      num: "06",
-      title: "CREATE",
-      tagline: "Computational Art & Interface Design",
-      desc: "Exploring the boundary where algorithms meet aesthetics: procedural graphics, human-centered UI/UX engineering, and technical editorials.",
-      highlights: ["WebGPU Shaders", "Design Systems", "Computing Journalism"],
+      title: "Hackathons",
+      subtitle: "Intense collaborative building",
+      desc: "The annual 36-hour chapter hackathon and competitive coding clinics preparing students for collegiate ICPC regional contests.",
+      metric: "Annual 36h hackathon",
     },
   ];
 
@@ -64,16 +49,16 @@ export default function WhatWeDoPreview() {
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".vector-preview-card",
-        { opacity: 0, y: 25 },
+        ".what-we-do-card",
+        { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.75,
-          stagger: 0.09,
+          duration: 0.8,
+          stagger: 0.1,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: ".vectors-grid",
+            trigger: ".what-we-do-grid",
             start: "top 85%",
             toggleActions: "play none none reverse",
           },
@@ -89,7 +74,7 @@ export default function WhatWeDoPreview() {
     <section
       id="what-we-do"
       ref={containerRef}
-      className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 border-t border-cyan-500/15 bg-[#030712]"
+      className="relative z-10 py-28 px-4 sm:px-6 lg:px-8 border-t border-cyan-500/15 bg-[#030712]"
     >
       <div className="mx-auto max-w-6xl">
         {/* Section Header */}
@@ -103,63 +88,47 @@ export default function WhatWeDoPreview() {
               What We Do
             </h2>
           </div>
-          <div className="max-w-md font-mono text-xs text-slate-400">
-            <p className="font-sans text-sm text-slate-300 font-light leading-relaxed">
-              Six key initiatives designed to help students learn, build, and grow through
-              computer science and community collaboration.
+          <div className="max-w-md">
+            <p className="text-sm text-slate-300 font-light leading-relaxed">
+              Four core initiatives focused on real technical depth, collaborative software
+              development, and student mentorship.
             </p>
           </div>
         </div>
 
-        {/* 6-Discipline Interactive Grid */}
-        <div className="vectors-grid mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {vectors.map((vec, idx) => {
-            const isSelected = activeVector === idx;
-            return (
-              <div
-                key={vec.num}
-                onClick={() => setActiveVector(idx)}
-                className={`vector-preview-card glass-panel glass-panel-hover corner-crosshair rounded-2xl border p-6 flex flex-col justify-between transition-all cursor-pointer ${
-                  isSelected
-                    ? "border-cyan-400 bg-cyan-950/40 shadow-lg shadow-cyan-500/20"
-                    : "border-cyan-500/20"
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between font-mono text-xs text-slate-400 border-b border-cyan-500/10 pb-3">
-                    <span className="text-cyan-400 font-bold">{vec.num} {"//"} INITIATIVE</span>
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider">
-                      {vec.title}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-4 text-xl font-bold text-white uppercase tracking-tight">
-                    {vec.title}
-                  </h3>
-                  <div className="font-mono text-xs text-cyan-300 mt-1">
-                    {vec.tagline}
-                  </div>
-
-                  <p className="mt-3 text-xs text-slate-300 font-light leading-relaxed">
-                    {vec.desc}
-                  </p>
+        {/* 4 Focused Pillars Grid */}
+        <div className="what-we-do-grid mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {pillars.map((item) => (
+            <div
+              key={item.num}
+              className="what-we-do-card glass-panel glass-panel-hover corner-crosshair rounded-2xl border border-cyan-500/20 p-6 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/50"
+            >
+              <div>
+                <div className="flex items-center justify-between font-mono text-xs border-b border-cyan-500/10 pb-3">
+                  <span className="text-cyan-400 font-bold">{item.num} {"//"}</span>
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider">
+                    INITIATIVE
+                  </span>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-cyan-500/10">
-                  <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
-                    {vec.highlights.map((h, i) => (
-                      <span
-                        key={i}
-                        className="rounded border border-slate-800 bg-[#020510] px-2 py-0.5 text-slate-300"
-                      >
-                        {h}
-                      </span>
-                    ))}
-                  </div>
+                <h3 className="mt-4 text-2xl font-bold text-white uppercase tracking-tight">
+                  {item.title}
+                </h3>
+                <div className="font-mono text-xs text-cyan-300 mt-1">
+                  {item.subtitle}
                 </div>
+
+                <p className="mt-3 text-xs text-slate-300 font-light leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
-            );
-          })}
+
+              <div className="mt-6 pt-4 border-t border-cyan-500/10 font-mono text-[11px] text-slate-400 flex items-center justify-between">
+                <span>FORMAT:</span>
+                <span className="text-cyan-300 font-medium">{item.metric}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

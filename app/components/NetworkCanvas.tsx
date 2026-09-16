@@ -2,18 +2,22 @@
 
 import { useEffect, useRef } from "react";
 
-interface Node {
+interface Node3D {
   x: number;
   y: number;
+  z: number;
   vx: number;
   vy: number;
+  vz: number;
   radius: number;
+  cluster: number; // 0: ambient, 1: foundation, 2: systems, 3: impact
   baseAlpha: number;
-  pulseSpeed: number;
   pulseOffset: number;
+  pulseSpeed: number;
 }
 
 interface NetworkCanvasProps {
+  progress?: number; // 0 to 1 scroll scrub
   interactive?: boolean;
   nodeCount?: number;
   maxDistance?: number;
@@ -21,12 +25,16 @@ interface NetworkCanvasProps {
 }
 
 export default function NetworkCanvas({
+  progress = 0,
   interactive = true,
-  nodeCount = 55,
-  maxDistance = 140,
   className = "",
 }: NetworkCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const progressRef = useRef(progress);
+
+  useEffect(() => {
+    progressRef.current = progress;
+  }, [progress]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -40,14 +48,64 @@ export default function NetworkCanvas({
     let height = 0;
     let dpr = 1;
 
+    // Camera state for smooth lerp
+    const camera = {
+      x: 0,
+      y: 0,
+      z: -300,
+      rotX: 0,
+      rotY: 0,
+      fov: 380,
+    };
+
     const mouse = {
-      x: -1000,
-      y: -1000,
-      radius: 180,
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0,
       active: false,
     };
 
-    let nodes: Node[] = [];
+    let nodes: Node3D[] = [];
+
+    const initNodes = () => {
+      nodes = [];
+      const count = 80;
+
+      // Cluster centers in 3D world space
+      const clusters = [
+        { cx: 0, cy: 0, cz: 0 },       // 0: Ambient spread
+        { cx: -40, cy: -20, cz: 180 },  // 1: Foundation
+        { cx: 70, cy: 30, cz: 520 },   // 2: Systems
+        { cx: -30, cy: 10, cz: 840 },   // 3: Impact / Future
+      ];
+
+      for (let i = 0; i < count; i++) {
+        let cluster = 0;
+        if (i < 20) cluster = 1;
+        else if (i < 42) cluster = 2;
+        else if (i < 64) cluster = 3;
+
+        const c = clusters[cluster];
+        const spreadX = cluster === 0 ? 600 : 180;
+        const spreadY = cluster === 0 ? 450 : 140;
+        const spreadZ = cluster === 0 ? 1000 : 160;
+
+        nodes.push({
+          x: c.cx + (Math.random() - 0.5) * spreadX,
+          y: c.cy + (Math.random() - 0.5) * spreadY,
+          z: c.cz + (Math.random() - 0.5) * spreadZ,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          vz: (Math.random() - 0.5) * 0.2,
+          radius: Math.random() * 2.2 + 1.2,
+          cluster,
+          baseAlpha: Math.random() * 0.45 + 0.35,
+          pulseOffset: Math.random() * Math.PI * 2,
+          pulseSpeed: Math.random() * 0.02 + 0.015,
+        });
+      }
+    };
 
     const resize = () => {
       if (!canvas) return;
@@ -62,41 +120,22 @@ export default function NetworkCanvas({
 
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
-
-      initNodes();
-    };
-
-    const initNodes = () => {
-      nodes = [];
-      const densityCount = Math.floor((width * height) / 22000);
-      const totalNodes = Math.max(35, Math.min(nodeCount, densityCount));
-
-      for (let i = 0; i < totalNodes; i++) {
-        nodes.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.45,
-          vy: (Math.random() - 0.5) * 0.45,
-          radius: Math.random() * 1.8 + 1.2,
-          baseAlpha: Math.random() * 0.5 + 0.35,
-          pulseSpeed: Math.random() * 0.02 + 0.01,
-          pulseOffset: Math.random() * Math.PI * 2,
-        });
-      }
     };
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!interactive || !canvas) return;
       const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+      const nx = (e.clientX - rect.left) / width - 0.5;
+      const ny = (e.clientY - rect.top) / height - 0.5;
+      mouse.targetX = nx * 80;
+      mouse.targetY = ny * 60;
       mouse.active = true;
     };
 
     const handleMouseLeave = () => {
+      mouse.targetX = 0;
+      mouse.targetY = 0;
       mouse.active = false;
-      mouse.x = -1000;
-      mouse.y = -1000;
     };
 
     window.addEventListener("resize", resize);
@@ -104,6 +143,7 @@ export default function NetworkCanvas({
     document.addEventListener("mouseleave", handleMouseLeave);
 
     resize();
+    initNodes();
 
     let time = 0;
 
@@ -111,83 +151,160 @@ export default function NetworkCanvas({
       time += 1;
       ctx.clearRect(0, 0, width, height);
 
-      // Update and draw nodes
+      // Interpolate mouse parallax
+      mouse.x += (mouse.targetX - mouse.x) * 0.06;
+      mouse.y += (mouse.targetY - mouse.y) * 0.06;
+
+      // Target camera based on progress (0 to 1)
+      const p = Math.max(0, Math.min(1, progressRef.current));
+
+      // Trajectory waypoints
+      let targetX = 0;
+      let targetY = 0;
+      let targetZ = -280;
+
+      if (p < 0.33) {
+        // Hero to Beat 1 (Foundation)
+        const sub = p / 0.33;
+        targetX = -30 * sub;
+        targetY = -15 * sub;
+        targetZ = -280 + 380 * sub; // reaches ~100
+      } else if (p < 0.68) {
+        // Beat 1 to Beat 2 (Systems & Convergence)
+        const sub = (p - 0.33) / 0.35;
+        targetX = -30 + 90 * sub;
+        targetY = -15 + 35 * sub;
+        targetZ = 100 + 360 * sub; // reaches ~460
+      } else {
+        // Beat 2 to Beat 3 (Impact & Mandate)
+        const sub = (p - 0.68) / 0.32;
+        targetX = 60 - 75 * sub;
+        targetY = 20 - 15 * sub;
+        targetZ = 460 + 320 * sub; // reaches ~780
+      }
+
+      // Smooth camera lerp
+      camera.x += (targetX + mouse.x - camera.x) * 0.08;
+      camera.y += (targetY + mouse.y - camera.y) * 0.08;
+      camera.z += (targetZ - camera.z) * 0.08;
+
+      const cx = width / 2;
+      const cy = height / 2;
+
+      // Project nodes to 2D
+      interface ProjectedNode {
+        sx: number;
+        sy: number;
+        scale: number;
+        alpha: number;
+        radius: number;
+        cluster: number;
+        visible: boolean;
+      }
+
+      const projected: ProjectedNode[] = [];
+
       for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i];
+        const n = nodes[i];
 
-        // Update positions
-        node.x += node.vx;
-        node.y += node.vy;
+        // Slight natural floating drift
+        n.x += n.vx;
+        n.y += n.vy;
+        n.z += n.vz;
 
-        // Bounce on boundary
-        if (node.x <= 0 || node.x >= width) node.vx *= -1;
-        if (node.y <= 0 || node.y >= height) node.vy *= -1;
+        // Relative to camera
+        const rx = n.x - camera.x;
+        const ry = n.y - camera.y;
+        const rz = n.z - camera.z;
 
-        // Mouse interaction: subtle magnetic drift
-        if (mouse.active) {
-          const dx = mouse.x - node.x;
-          const dy = mouse.y - node.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < mouse.radius) {
-            const force = (1 - dist / mouse.radius) * 0.04;
-            node.x += dx * force;
-            node.y += dy * force;
-          }
+        // Near-plane clipping and far fog
+        if (rz < 40 || rz > 1400) {
+          projected.push({
+            sx: 0,
+            sy: 0,
+            scale: 0,
+            alpha: 0,
+            radius: 0,
+            cluster: n.cluster,
+            visible: false,
+          });
+          continue;
         }
 
-        // Pulsing glow
-        const pulse = Math.sin(time * node.pulseSpeed + node.pulseOffset) * 0.2 + 0.8;
-        const currentAlpha = Math.min(1, node.baseAlpha * pulse);
+        const scale = camera.fov / rz;
+        const sx = cx + rx * scale;
+        const sy = cy + ry * scale;
 
-        const isLight = typeof document !== "undefined" && document.documentElement.classList.contains("light");
-        const cyanRgb = isLight ? "2, 132, 199" : "0, 240, 255";
-        const accentRgb = isLight ? "3, 105, 161" : "56, 189, 248";
+        // Pulse
+        const pulse =
+          Math.sin(time * n.pulseSpeed + n.pulseOffset) * 0.25 + 0.75;
 
-        // Draw node core
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${cyanRgb}, ${currentAlpha})`;
-        ctx.shadowColor = `rgba(${cyanRgb}, ${isLight ? 0.4 : 0.7})`;
-        ctx.shadowBlur = isLight ? 4 : 8;
-        ctx.fill();
+        // Depth fog attenuation
+        const depthFog = Math.max(0, 1 - (rz - 60) / 1100);
+        const nearFade = Math.min(1, (rz - 40) / 80);
+        const currentAlpha = n.baseAlpha * pulse * depthFog * nearFade;
 
-        // Connect with other nodes
+        projected.push({
+          sx,
+          sy,
+          scale,
+          alpha: currentAlpha,
+          radius: Math.max(0.6, n.radius * scale),
+          cluster: n.cluster,
+          visible: sx >= -50 && sx <= width + 50 && sy >= -50 && sy <= height + 50,
+        });
+      }
+
+      // Draw connection lines between nearby projected nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const p1 = projected[i];
+        if (!p1.visible || p1.alpha <= 0.05) continue;
+
         for (let j = i + 1; j < nodes.length; j++) {
-          const other = nodes[j];
-          const dx = node.x - other.x;
-          const dy = node.y - other.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const p2 = projected[j];
+          if (!p2.visible || p2.alpha <= 0.05) continue;
 
-          if (dist < maxDistance) {
-            const lineAlpha = (1 - dist / maxDistance) * (isLight ? 0.35 : 0.28);
-            ctx.beginPath();
-            ctx.moveTo(node.x, node.y);
-            ctx.lineTo(other.x, other.y);
-            ctx.strokeStyle = `rgba(${cyanRgb}, ${lineAlpha})`;
-            ctx.lineWidth = isLight ? 1 : 0.85;
-            ctx.shadowBlur = 0;
-            ctx.stroke();
-          }
-        }
+          // 3D distance check for realism
+          const dx3 = nodes[i].x - nodes[j].x;
+          const dy3 = nodes[i].y - nodes[j].y;
+          const dz3 = nodes[i].z - nodes[j].z;
+          const dist3D = Math.sqrt(dx3 * dx3 + dy3 * dy3 + dz3 * dz3);
 
-        // Connect with cursor if in range
-        if (mouse.active) {
-          const dx = mouse.x - node.x;
-          const dy = mouse.y - node.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < mouse.radius) {
-            const lineAlpha = (1 - dist / mouse.radius) * 0.42;
+          const maxDist =
+            nodes[i].cluster === nodes[j].cluster && nodes[i].cluster !== 0
+              ? 160
+              : 110;
+
+          if (dist3D < maxDist) {
+            const lineAlpha =
+              (1 - dist3D / maxDist) * Math.min(p1.alpha, p2.alpha) * 0.75;
+
             ctx.beginPath();
-            ctx.moveTo(node.x, node.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(${accentRgb}, ${lineAlpha})`;
-            ctx.lineWidth = 1.1;
-            ctx.shadowColor = `rgba(${cyanRgb}, 0.5)`;
-            ctx.shadowBlur = 4;
+            ctx.moveTo(p1.sx, p1.sy);
+            ctx.lineTo(p2.sx, p2.sy);
+            ctx.strokeStyle = `rgba(0, 240, 255, ${lineAlpha})`;
+            ctx.lineWidth = Math.max(0.5, (p1.scale + p2.scale) * 0.4);
             ctx.stroke();
           }
         }
       }
+
+      // Draw node particles
+      for (let i = 0; i < projected.length; i++) {
+        const p = projected[i];
+        if (!p.visible || p.alpha <= 0.04) continue;
+
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, p.radius, 0, Math.PI * 2);
+
+        // Core cyan color with subtle pulse
+        ctx.fillStyle = `rgba(0, 240, 255, ${p.alpha})`;
+        ctx.shadowColor = "rgba(0, 240, 255, 0.6)";
+        ctx.shadowBlur = p.radius > 2 ? 6 : 2;
+        ctx.fill();
+      }
+
+      ctx.shadowBlur = 0;
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -200,13 +317,13 @@ export default function NetworkCanvas({
       document.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [interactive, nodeCount, maxDistance]);
+  }, [interactive]);
 
   return (
     <canvas
       ref={canvasRef}
       className={`pointer-events-auto absolute inset-0 block h-full w-full ${className}`}
-      style={{ opacity: 0.92 }}
+      style={{ opacity: 0.95 }}
     />
   );
 }

@@ -19,13 +19,11 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
   }, []);
 
   const navLinks = [
-    { label: "ABOUT", href: "#information" },
+    { label: "ABOUT", href: "#hero" },
     { label: "PEOPLE", href: "#people" },
     { label: "EVENTS", href: "#events" },
     { label: "WHAT WE DO", href: "#what-we-do" },
     { label: "PROJECTS", href: "#projects" },
-    { label: "RESOURCES", href: "#resources" },
-    { label: "ARCHIVE", href: "#archive" },
     { label: "JOIN", href: "#join" },
   ];
 
@@ -41,7 +39,6 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
         {/* ACM Brand Identity */}
         <a href="#hero" className="flex items-center gap-3 group">
           <div className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-950/30 text-cyan-300 shadow-sm shadow-cyan-500/20 group-hover:border-cyan-400 group-hover:shadow-cyan-400/30 transition-all">
-            {/* Custom geometric ACM vector monogram */}
             <svg
               className="h-6 w-6 text-cyan-400 group-hover:text-cyan-300 transition-colors"
               viewBox="0 0 32 32"
@@ -77,10 +74,10 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <span className="font-mono text-base font-extrabold tracking-wider text-white">
-                ACM<span className="text-cyan-400 font-normal ml-1">2026</span>
+                ACM <span className="text-cyan-400 font-bold">FACE</span>
               </span>
               <span className="rounded border border-cyan-500/30 bg-cyan-500/10 px-1.5 py-0.2 text-[9px] font-mono uppercase tracking-widest text-cyan-300">
-                LIVING NETWORK
+                2026
               </span>
             </div>
             <span className="text-[10px] font-mono text-slate-400 tracking-wider hidden sm:inline">
@@ -90,7 +87,7 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 text-[11px] font-mono tracking-wider text-slate-300">
+        <nav className="hidden lg:flex items-center gap-7 text-[11px] font-mono tracking-wider text-slate-300">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -115,7 +112,7 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
             href="#join"
             className="rounded-lg bg-cyan-400 px-4 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-950 hover:bg-cyan-300 transition-all shadow-md shadow-cyan-400/20 hover:shadow-cyan-300/30 hover:-translate-y-0.5"
           >
-            Join ACM
+            Join Chapter
           </a>
         </div>
 
@@ -162,7 +159,7 @@ export default function Navbar({ onOpenSpecs }: NavbarProps) {
               onClick={() => setMobileMenuOpen(false)}
               className="w-1/2 rounded bg-cyan-400 py-2 text-[11px] font-mono font-bold text-slate-950 text-center"
             >
-              Join ACM
+              Join Chapter
             </a>
           </div>
         </div>

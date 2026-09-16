@@ -195,8 +195,8 @@ export default function EventsSection({ onSelectEvent }: EventsSectionProps) {
           </div>
           <div className="max-w-md">
             <p className="text-sm text-slate-300 font-light leading-relaxed">
-              Technical symposiums, hands-on workshops, competitive coding clinics, and hackathons
-              hosted by our student chapter.
+              Hands-on technical workshops, symposia, and hackathons. Structured with complete details,
+              registration access, and embedded event photo archives.
             </p>
           </div>
         </div>
@@ -218,7 +218,7 @@ export default function EventsSection({ onSelectEvent }: EventsSectionProps) {
           ))}
         </div>
 
-        {/* Events Grid (WHAT, WHEN, WHERE, STATUS, WHAT CAN I DO) */}
+        {/* Events Grid adhering strictly to WHAT / WHEN / WHERE / STATUS / ACTION */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredEvents.map((event) => {
             const isPast = event.status === "Past Event";
@@ -226,14 +226,14 @@ export default function EventsSection({ onSelectEvent }: EventsSectionProps) {
               <div
                 key={event.id}
                 onClick={() => onSelectEvent(event)}
-                className={`glass-panel glass-panel-hover corner-crosshair rounded-2xl border p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer ${
+                className={`group glass-panel glass-panel-hover corner-crosshair rounded-2xl border p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer ${
                   isPast
-                    ? "border-slate-800/80 bg-[#040816]/70 hover:border-cyan-500/40"
+                    ? "border-slate-800 bg-[#040816]/80 hover:border-cyan-500/50"
                     : "border-cyan-500/25 bg-[#030919]/90 hover:border-cyan-400/60 shadow-lg shadow-cyan-950/20"
                 }`}
               >
                 <div>
-                  {/* Poster Banner */}
+                  {/* Visual Header / Poster Banner */}
                   <div
                     className={`h-32 w-full rounded-xl border border-cyan-500/20 p-4 flex flex-col justify-between relative overflow-hidden mb-5 ${event.posterGradient}`}
                   >
@@ -251,11 +251,11 @@ export default function EventsSection({ onSelectEvent }: EventsSectionProps) {
                     </div>
                   </div>
 
-                  {/* Status & Title */}
+                  {/* STATUS & TIME */}
                   <div className="flex items-center justify-between font-mono text-[11px] mb-2">
                     <span
                       className={`font-semibold ${
-                        isPast ? "text-slate-500" : "text-emerald-400"
+                        isPast ? "text-slate-400" : "text-emerald-400"
                       }`}
                     >
                       ● {event.status}
@@ -263,11 +263,12 @@ export default function EventsSection({ onSelectEvent }: EventsSectionProps) {
                     <span className="text-slate-400">{event.time}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-white tracking-tight leading-snug">
+                  {/* WHAT: Title */}
+                  <h3 className="text-lg font-bold text-white tracking-tight leading-snug group-hover:text-cyan-200 transition-colors">
                     {event.title}
                   </h3>
 
-                  {/* Location */}
+                  {/* WHERE: Location */}
                   <div className="mt-2 text-xs font-mono text-cyan-400/90 flex items-center gap-1.5">
                     <span>📍</span>
                     <span className="truncate">{event.location}</span>
@@ -277,26 +278,44 @@ export default function EventsSection({ onSelectEvent }: EventsSectionProps) {
                   <p className="mt-3 text-xs text-slate-300 font-light leading-relaxed">
                     {event.shortDescription}
                   </p>
+
+                  {/* Embedded Event Photo Strip for Past Events (Rule 6) */}
+                  {isPast && event.photos && event.photos.length > 0 && (
+                    <div className="mt-4 pt-3 border-t border-cyan-500/10">
+                      <div className="text-[10px] font-mono uppercase text-slate-400 mb-2 flex items-center justify-between">
+                        <span>Captured Event Photos</span>
+                        <span className="text-cyan-400 font-medium">
+                          {event.photos.length} photos
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        {event.photos.slice(0, 3).map((p, idx) => (
+                          <div
+                            key={idx}
+                            className="h-12 rounded bg-cyan-950/40 border border-cyan-500/20 flex items-center justify-center font-mono text-[9px] text-cyan-400/70"
+                          >
+                            📷 #{p.tag}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Bottom Action (Register for Upcoming / View Photos for Past) */}
+                {/* WHAT CAN I DO: Action CTA */}
                 <div className="mt-6 pt-4 border-t border-cyan-500/10 flex items-center justify-between font-mono text-xs">
                   {isPast ? (
-                    <span className="text-cyan-300 font-medium flex items-center gap-1">
-                      <span>Explore & View Photos</span>
+                    <span className="text-cyan-300 font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                      <span>View Summary & Photos</span>
                       <span>→</span>
                     </span>
                   ) : (
-                    <span className="text-cyan-400 font-bold flex items-center gap-1">
-                      <span>Register / Details</span>
+                    <span className="text-cyan-400 font-bold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                      <span>Register / View Details</span>
                       <span>↗</span>
                     </span>
                   )}
-                  {event.photos && (
-                    <span className="text-[10px] text-slate-500">
-                      📷 {event.photos.length} photos
-                    </span>
-                  )}
+                  <span className="text-[11px] text-slate-400">Details</span>
                 </div>
               </div>
             );

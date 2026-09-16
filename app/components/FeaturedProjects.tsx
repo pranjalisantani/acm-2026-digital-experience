@@ -59,54 +59,41 @@ export default function FeaturedProjects() {
               Selected Projects
             </h2>
           </div>
-          <div className="max-w-md font-mono text-xs text-slate-400">
-            <p className="font-sans text-sm text-slate-300 font-light leading-relaxed">
-              Open-source software, research preprints, and competition libraries
-              engineered and maintained by chapter students.
+          <div className="max-w-md">
+            <p className="text-sm text-slate-300 font-light leading-relaxed">
+              Open-source software, research tools, and competition libraries engineered
+              and maintained by chapter students.
             </p>
           </div>
         </div>
 
-        {/* Restrained Project Cards (Generous whitespace, minimal text) */}
+        {/* Restrained Project Cards (PROJECT NAME, SHORT PURPOSE, EXPLORE) */}
         <div className="featured-projects-grid mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {featured.map((proj, idx) => (
+          {featured.map((proj) => (
             <div
               key={proj.id}
               className="featured-project-card glass-panel glass-panel-hover corner-crosshair rounded-2xl border border-cyan-500/20 p-7 flex flex-col justify-between transition-all duration-300 hover:border-cyan-400/50"
             >
               <div>
-                {/* Meta Header */}
-                <div className="flex items-center justify-between font-mono text-[11px] text-slate-400 border-b border-cyan-500/10 pb-3">
-                  <span className="text-cyan-400 font-bold">PROJECT // 0{idx + 1}</span>
-                  <span className="text-slate-400">{proj.domain}</span>
+                {/* Domain Pill */}
+                <div className="font-mono text-[10px] text-cyan-400 uppercase tracking-wider">
+                  {proj.domain}
                 </div>
 
-                {/* Title */}
-                <h3 className="mt-5 text-xl font-bold text-white tracking-tight leading-snug">
+                {/* PROJECT NAME */}
+                <h3 className="mt-3 text-xl font-bold text-white tracking-tight leading-snug">
                   {proj.title}
                 </h3>
 
-                {/* One-Line Purpose */}
+                {/* SHORT PURPOSE */}
                 <p className="mt-2.5 text-xs text-slate-300 font-light leading-relaxed">
                   {proj.tagline}
                 </p>
-
-                {/* Minimal Technology (2-3 items) */}
-                <div className="mt-5 flex flex-wrap gap-1.5 font-mono text-[10px]">
-                  {proj.technologies.slice(0, 3).map((tech, i) => (
-                    <span
-                      key={i}
-                      className="rounded border border-slate-800 bg-[#040a18] px-2.5 py-0.5 text-slate-300"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
               </div>
 
-              {/* Explore Link */}
+              {/* EXPLORE */}
               <div className="mt-8 pt-4 border-t border-cyan-500/10 flex items-center justify-between font-mono text-xs text-slate-400 group">
-                <span className="text-[11px] text-slate-400 truncate max-w-[200px]">
+                <span className="text-[11px] text-slate-400 truncate max-w-[180px]">
                   {proj.githubPlaceholder}
                 </span>
                 <span className="text-cyan-400 text-xs font-semibold group-hover:translate-x-0.5 transition-transform">
